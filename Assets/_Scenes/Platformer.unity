@@ -12431,6 +12431,11 @@ MonoBehaviour:
   livesHUD: {fileID: 631557667}
   dustTrailColour: {r: 0.22352943, g: 0.1137255, b: 0.2392157, a: 0}
   sounds: []
+  vcam1: {fileID: 0}
+  perlin: {fileID: 0}
+  shakeIntensity: 2
+  maxShakeTime: 0.5
+  shakeTimer: 0
 --- !u!61 &2013978530
 BoxCollider2D:
   m_ObjectHideFlags: 0
