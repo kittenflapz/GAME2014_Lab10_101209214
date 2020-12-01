@@ -33,6 +33,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     
     private ParticleSystem m_dustTrail;
+    public Color dustTrailColour;
 
     private Rigidbody2D m_rigidBody2D;
     private SpriteRenderer m_spriteRenderer;
@@ -237,6 +238,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void CreateDustTrail()
     {
+       // m_dustTrail.GetComponent<Renderer>().material.SetColor("_Color", dustTrailColour);
         m_dustTrail.Play();
     }
 }
