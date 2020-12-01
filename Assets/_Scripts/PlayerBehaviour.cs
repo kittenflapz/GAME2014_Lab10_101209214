@@ -4,6 +4,15 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+[System.Serializable]
+public enum ImpulseSounds
+{
+    JUMP,
+    HIT,
+    DIE
+}
+
 public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Controls")]
@@ -31,9 +40,12 @@ public class PlayerBehaviour : MonoBehaviour
     public BarController healthBar;
     public Animator livesHUD;
 
-    
+    [Header("Dust Trail")]
     private ParticleSystem m_dustTrail;
     public Color dustTrailColour;
+
+    [Header("Impulse Sounds")]
+    public AudioSource[] sounds;
 
     private Rigidbody2D m_rigidBody2D;
     private SpriteRenderer m_spriteRenderer;
@@ -50,6 +62,8 @@ public class PlayerBehaviour : MonoBehaviour
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_animator = GetComponent<Animator>();
         m_dustTrail = GetComponentInChildren<ParticleSystem>();
+
+        sounds = GetComponents<AudioSource>();
     }
 
     // Update is called once per frame
@@ -164,6 +178,8 @@ public class PlayerBehaviour : MonoBehaviour
                 m_animator.SetInteger("AnimState", (int) PlayerAnimationType.JUMP);
                 isJumping = true;
 
+                sounds[(int)ImpulseSounds.JUMP].Play();
+
                 CreateDustTrail();
             }
             else
@@ -209,6 +225,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void LoseLife()
     {
         lives -= 1;
+        sounds[(int)ImpulseSounds.DIE].Play();
 
         livesHUD.SetInteger("LivesState", lives);
 
@@ -229,6 +246,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         health -= damage;
         healthBar.SetValue(health);
+        PlayRandomHitSounds();
 
         if (health <= 0)
         {
@@ -240,5 +258,16 @@ public class PlayerBehaviour : MonoBehaviour
     {
        // m_dustTrail.GetComponent<Renderer>().material.SetColor("_Color", dustTrailColour);
         m_dustTrail.Play();
+    }
+
+    private void PlayRandomHitSounds()
+    {
+
+        // i don't have more than one hit sound so i'm just playing one but you can just 
+       // int randomHitSound = UnityEngine.Random.Range(1, 3); and pass this in below
+
+
+        sounds[(int)ImpulseSounds.HIT].Play();
+
     }
 }
